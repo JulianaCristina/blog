@@ -1,64 +1,73 @@
-# 📘 Blog Platform – Multi-Author CMS + Public Site
+# React + TypeScript + Vite
 
-A scalable multi-author blog platform built with **React (Vite), TypeScript, Redux Toolkit, TailwindCSS and Firebase**.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-This project implements a complete blog system with a private CMS for authors and a public-facing website for readers.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## ✨ Features
+## React Compiler
 
-- 🔐 Authentication (Firebase Auth)
-- 📝 Private CMS for authors
-- 🌍 Public blog with clean routing
-- ❤️ Likes system (optimistic UI updates)
-- 💬 Comment system with moderation
-- 🏷 Tags and filtering
-- 📦 Clean domain-driven architecture
-- 🚀 Designed for future backend migration
+The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
 
----
+## Expanding the ESLint configuration
 
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## 🏗 Architecture
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-This project follows a **Domain + Ports/Adapters architecture**, ensuring:
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-- Firebase is isolated in the infrastructure layer
-- Domain models are database-agnostic
-- Repository contracts are defined via interfaces
-- Business rules live outside UI components
-- Backend can be replaced without rewriting the frontend
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
----
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-## 🧠 Technical Highlights
-
-- Normalized Redux state management
-- Optimistic updates for likes
-- Soft deletes for posts and comments
-- Slug reservation system for uniqueness
-- Pagination-ready queries
-- Role-based access control (admin / author)
-
----
-
-## 🔮 Roadmap
-
-### Phase 1
-SPA with Firebase (Auth + Firestore + Storage)
-
-### Phase 2
-Migrate public site to Next.js (SSR / SSG for SEO)
-
-### Phase 3
-Replace Firebase with a custom backend (Node + Database)
-
----
-
-## 🚀 Getting Started
-
-```bash
-npm install
-npm run dev
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
