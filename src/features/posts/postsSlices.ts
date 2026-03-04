@@ -1,21 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import { type NewPost, type Post, PostStatus, type PostUpdated } from './posts.types'
+import { type NewPost, type Post, type PostUpdated } from './posts.types'
 import type { RootState } from '@/app/store/store'
 
-const initialState: Post[] = [
-  {
-    id: '',
-    authorId: '',
-    content: '',
-    title: '',
-    commentCount: 0,
-    slug: '',
-    deletedAt: 0,
-    tags: [],
-    status: PostStatus.draft,
-    likeCount: 0,
-  },
-]
+const initialState: Post[] = []
 
 export const postsSlice = createSlice({
   name: 'posts',
@@ -43,9 +30,9 @@ export const postsReducer = postsSlice.reducer
 export const selectAllPosts = (state: RootState) => state.posts
 
 export const selectPostById = (state: RootState, postId: string) => {
-  state.posts.find((post) => post.id === postId)
+  return state.posts.find((post) => post.id === postId)
 }
 
 export const selectPostByTag = (state: RootState, tags: string[]) => {
-  state.posts.filter((post) => tags.every((t) => post.tags.includes(t)))
+  return state.posts.filter((post) => tags.every((t) => post.tags.includes(t)))
 }

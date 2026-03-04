@@ -19,7 +19,10 @@ export interface Post {
   deletedAt?: number
 }
 
-export type NewPost = Pick<Post, 'id' | 'title' | 'content' | 'tags' | 'authorId' | 'status'>
+export type NewPost = Pick<
+  Post,
+  'id' | 'title' | 'content' | 'tags' | 'authorId' | 'slug' | 'status'
+>
 
 export type PostUpdated = Pick<
   Post,

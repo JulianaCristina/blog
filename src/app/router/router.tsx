@@ -13,7 +13,7 @@ export function AppRouter() {
         <Route index element={<PostsPage />} />
         <Route path="dashboard" element={<PostsPage />} />
         <Route path="posts" element={<PostsPage />} />
-        <Route path="new" element={<PostsPage />} />
+        <Route path="new" element={<PostEditorPage />} />
         <Route path="comments" element={<PostsPage />} />
         <Route path="update" element={<PostEditorPage />} />
       </Route>

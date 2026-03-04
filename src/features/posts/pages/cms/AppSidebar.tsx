@@ -30,7 +30,7 @@ export const AppSidebar = () => {
                 asChild
                 isActive={isActive}
                 className={cn(
-                  'justify-center rounded-none',
+                  'justify-center rounded-none p-5',
                   'data-[active=true]:bg-(--color-primary-dark)',
                   isActive ? cn('font-bold text-white') : 'opacity-80',
                 )}
