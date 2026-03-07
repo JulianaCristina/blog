@@ -1,9 +1,9 @@
 import { Route, Routes } from 'react-router'
-import { PostsPage } from '@/features/posts/pages/cms/PostsPage'
-import { PostEditorPage } from '@/features/posts/pages/cms/PostEditorPage'
-import { BlogHomePage } from '@/features/posts/pages/public/BlogHomePage'
 import { PageNotFound } from '@/features/auth/components/404/PageNotFound'
-import { CMSLayout } from '@/features/posts/pages/cms/CMSLayout'
+import { BlogHomePage } from '@/features/public/BlogHomePage'
+import { CMSLayout } from '@/features/cms/components/CMSLayout'
+import { PostsPage } from '@/features/cms/posts/PostsPage'
+import { PostEditorPage } from '@/features/cms/posts/PostEditorPage'
 
 export function AppRouter() {
   return (
