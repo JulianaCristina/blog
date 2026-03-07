@@ -15,7 +15,7 @@ export function AppRouter() {
         <Route path="posts" element={<PostsPage />} />
         <Route path="new" element={<PostEditorPage />} />
         <Route path="comments" element={<PostsPage />} />
-        <Route path="update" element={<PostEditorPage />} />
+        <Route path="update/:postId" element={<PostEditorPage />} />
       </Route>
       <Route path="/logout" element={<BlogHomePage />} />
       <Route path="*" element={<PageNotFound />} />

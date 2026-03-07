@@ -7,7 +7,7 @@ export const PostStatus = {
 export type PostStatus = (typeof PostStatus)[keyof typeof PostStatus]
 
 export interface Post {
-  id?: string
+  id: string
   title: string
   content: string
   tags: string[]
@@ -17,11 +17,20 @@ export interface Post {
   likeCount?: number
   commentCount?: number
   deletedAt?: number
+  updatedAt?: number
 }
 
 export type NewPost = Pick<
   Post,
-  'id' | 'title' | 'content' | 'tags' | 'authorId' | 'slug' | 'status'
+  | 'id'
+  | 'title'
+  | 'content'
+  | 'tags'
+  | 'authorId'
+  | 'slug'
+  | 'status'
+  | 'likeCount'
+  | 'commentCount'
 >
 
 export type PostUpdated = Pick<

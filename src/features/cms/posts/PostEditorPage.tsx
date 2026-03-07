@@ -1,19 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useAppDispatch } from '@/app/store/hooks'
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks'
 import { Button } from '@/components/ui/button'
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { postAdded } from '@/features/posts/postsSlices'
-import { PostStatus, type NewPost } from '@/features/posts/posts.types'
+
+import { useNavigate, useParams } from 'react-router'
+import { type NewPost, PostStatus } from '@/features/cms/posts/posts.types'
+import { postAdded, postUpdated, selectPostById } from '@/features/cms/posts/postsSlices'
 import {
-  postEditorSchema,
   type PostEditorFormData,
   type PostEditorFormValues,
-} from '@/features/posts/pages/cms/postEditorForm.schema'
-import { useNavigate } from 'react-router'
+  postEditorSchema,
+} from '@/features/cms/components/postEditorForm.schema'
 
 const defaultValues: PostEditorFormValues = {
   title: '',
@@ -33,6 +34,8 @@ const slugify = (value: string) =>
 
 export const PostEditorPage = () => {
   const dispatch = useAppDispatch()
+  const { postId } = useParams()
+  const post = useAppSelector((state) => (postId ? selectPostById(state, postId) : undefined))
   const [saveMessage, setSaveMessage] = useState('')
   const navigate = useNavigate()
   const {
@@ -50,8 +53,7 @@ export const PostEditorPage = () => {
   const slugPreview = slugify(title)
 
   const onSubmit = handleSubmit((values) => {
-    const payload: NewPost = {
-      id: crypto.randomUUID(),
+    const payload: Omit<NewPost, 'id'> = {
       title: values.title,
       authorId: values.authorId,
       content: values.content,
@@ -59,12 +61,30 @@ export const PostEditorPage = () => {
       slug: slugify(values.title),
       status: values.status,
     }
+    if (!!postId) {
+      dispatch(postUpdated({ id: postId, ...payload }))
+    } else {
+      dispatch(postAdded({ ...payload, id: crypto.randomUUID() }))
+    }
 
-    dispatch(postAdded(payload))
     reset(defaultValues)
     setSaveMessage(`Post "${payload.title}" saved.`)
     navigate('/cms/posts')
   })
+
+  useEffect(() => {
+    if (post) {
+      reset({
+        title: post.title,
+        authorId: post.authorId,
+        content: post.content,
+        tags: post.tags.join(','),
+        status: post.status === PostStatus.published ? PostStatus.published : PostStatus.draft,
+      })
+    } else {
+      reset(defaultValues)
+    }
+  }, [post, reset])
 
   return (
     <section className="mx-auto flex w-full flex-col gap-8">

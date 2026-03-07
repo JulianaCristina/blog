@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import { type NewPost, type Post, type PostUpdated } from './posts.types'
+import { type NewPost, type Post, PostStatus, type PostUpdated } from './posts.types'
 import type { RootState } from '@/app/store/store'
 
 const initialState: Post[] = []
@@ -15,15 +15,34 @@ export const postsSlice = createSlice({
       const post = state.find((post) => post.id === action.payload.id)
       if (post) {
         post.title = action.payload.title
+        post.authorId = action.payload.authorId
         post.content = action.payload.content
         post.tags = action.payload.tags
         post.slug = action.payload.slug
+        post.status = action.payload.status
+        post.updatedAt = Date.now()
+      }
+    },
+    postDeleted: (state, action: PayloadAction<{ id: string }>) => {
+      const index = state.findIndex((post) => post.id === action.payload.id)
+      if (index !== -1) {
+        state.splice(index, 1)
+      }
+    },
+    postPublished: (state, action: PayloadAction<{ id: string }>) => {
+      const post = state.find((post) => post.id === action.payload.id)
+      if (post) {
+        if (post.status === PostStatus.published) {
+          post.status = PostStatus.draft
+        } else {
+          post.status = PostStatus.published
+        }
       }
     },
   },
 })
 
-export const { postAdded, postUpdated } = postsSlice.actions
+export const { postAdded, postUpdated, postDeleted, postPublished } = postsSlice.actions
 
 export const postsReducer = postsSlice.reducer
 
