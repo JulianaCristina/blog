@@ -17,10 +17,16 @@ export const tagsSlice = createSlice({
         tag.name = action.payload.name
       }
     },
+    tagDeleted: (state, action: PayloadAction<{ id: string }>) => {
+      const index = state.findIndex((tag) => tag.id === action.payload.id)
+      if (index !== -1) {
+        state.splice(index, 1)
+      }
+    },
   },
 })
 
-export const { tagAdded, tagUpdated } = tagsSlice.actions
+export const { tagAdded, tagUpdated, tagDeleted } = tagsSlice.actions
 export const tagsReducer = tagsSlice.reducer
 
 export const selectAllTags = (state: RootState) => state.tags
