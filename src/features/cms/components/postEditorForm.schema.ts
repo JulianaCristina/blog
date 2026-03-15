@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { PostStatus } from '@/features/posts/posts.types'
+import { PostStatus } from '@/features/cms/posts/posts.types'
 
 const splitTags = (value: string) =>
   value

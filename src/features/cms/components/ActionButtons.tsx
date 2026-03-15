@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router'
 import { Pencil, NotepadTextDashed, Rocket, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAppDispatch } from '@/app/store/hooks'
-import { postDeleted, postPublished } from '@/features/posts/postsSlices'
-import { PostStatus } from '@/features/posts/posts.types'
+import { postDeleted, postPublished } from '@/features/cms/posts/postsSlices'
+import { PostStatus } from '@/features/cms/posts/posts.types'
 
 type ActionButtonsProps = {
   postId: string

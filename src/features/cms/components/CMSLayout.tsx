@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { AppSidebar } from '@/features/posts/pages/cms/AppSidebar'
+import { AppSidebar } from '@/features/cms/components/AppSidebar'
 
 export const CMSLayout = () => {
   return (

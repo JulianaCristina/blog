@@ -21,7 +21,7 @@ export const AppSidebar = () => {
       <SidebarContent>
         {MENU_ITEMS.map((item) => {
           const isActive = Boolean(
-            matchPath({ path: item.to, end: item.to === '/cms/posts' }, pathname),
+            matchPath({ path: item.to, end: item.to === '/cms/posts/new' }, pathname),
           )
 
           return (
